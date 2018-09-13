@@ -5,7 +5,7 @@ import com.axeane.SpringBootMysql.model.Salarie;
 import java.util.List;
 
 public interface SalariesService {
-    Salarie addsalarie(Salarie salarie);
+    void addsalarie(Salarie salarie);
 
     List<Salarie> getListSalaries();
 

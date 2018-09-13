@@ -21,9 +21,8 @@ public class SalariesServiceImpl implements SalariesService {
     private Logger logger = LoggerFactory.getLogger(SalariesServiceImpl.class);
 
     @Override
-    public Salarie addsalarie(Salarie salarie) {
+    public void addsalarie(Salarie salarie) {
         salariesRepository.save(salarie);
-        return salarie;
     }
 
     @Override
