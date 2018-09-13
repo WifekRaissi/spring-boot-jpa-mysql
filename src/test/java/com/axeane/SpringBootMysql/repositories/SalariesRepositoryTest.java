@@ -22,12 +22,10 @@ public class SalariesRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-
     }
 
     @Test
     public void testPersistence() {
-
         Salarie salarie = new Salarie("amira", "raissi", new BigDecimal(444444), "Tunis");
         salariesRepository.save(salarie);
         assertNotNull(salarie.getId());
