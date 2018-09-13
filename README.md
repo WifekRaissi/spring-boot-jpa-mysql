@@ -74,13 +74,13 @@ public interface SalariesRepository extends JpaRepository<Salarie, Long> {
     Salarie findSalarieById(Long id);
 
 }
-
- 
  ```
+ 
+
 
 ## Salarie.java
-```
 
+```
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.persistence.Entity;
@@ -208,14 +208,17 @@ public class Salarie {
 }
 ```
 
-    @Entity: 
-    @Id
-    @GeneratedValue
+
+@Entity: 
+@Id
+@GeneratedValue
     
-    
-    ## SalariesServiceImpl
-    
-    ```
+  
+  
+  ## SalariesServiceImpl
+  
+   
+  ```
 import com.axeane.SpringBootMysql.model.Salarie;
 import com.axeane.SpringBootMysql.repositories.SalariesRepository;
 import org.slf4j.Logger;
@@ -223,7 +226,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 
 @Service
 public class SalariesServiceImpl implements SalariesService {
@@ -268,15 +270,16 @@ public class SalariesServiceImpl implements SalariesService {
         }
     }
 
-    ```
+  ```
     
-    ## SalariesController
+ ## SalariesController
     
     
-    # Test unitaire
+ # Test unitaire
     
-    ## SalariesRepositoryTest.java
-    ```
+  ## SalariesRepositoryTest.java
+   
+   ```
     
 import com.axeane.SpringBootMysql.model.Salarie;
 
