@@ -40,7 +40,7 @@ L'architecture de l'application est la suivante.
 
 On commence par ajouter les dépendances nécessaires pour assurer la connexion entre Spring Boot et MySQL.
 ```
-<dependency>
+              <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
@@ -60,6 +60,11 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
 spring.jpa.hibernate.ddl-auto = update
  ```
  ## Repository
+ ## SalariesRepository
+ 
+ Il s'agit d'une interface qui étend JpaRepository, qui présente toutes les fonctionalités de CrudRepository et  PagingAndSortingRepository. https://stackoverflow.com/a/14025100 
+ 
+C'est à travers de cette interface que l'application peut communiquer avec la base de données et faire les diffèrentes opérations.
  
  ```
  import com.axeane.SpringBootMysql.model.Salarie;
@@ -80,6 +85,7 @@ public interface SalariesRepository extends JpaRepository<Salarie, Long> {
 
 ## Salarie.java
 
+On doit maintenant ajouter quelques annotations dans la classe salarie.
 ```
 import org.springframework.beans.factory.annotation.Required;
 
@@ -209,14 +215,16 @@ public class Salarie {
 ```
 
 
-@Entity: 
-@Id
-@GeneratedValue
+ @Entity: pour indiquer qu'il s'agit d'une entité
+ @Id: indique que le champ correspondant est un clé primaire
+ @GeneratedValue:la clé primaire est autogénérée.
+
     
   
   
   ## SalariesServiceImpl
   
+  Maintenant on va changer nos services pour faire des opérations sur la base de données.
    
   ```
 import com.axeane.SpringBootMysql.model.Salarie;
@@ -280,8 +288,8 @@ public class SalariesServiceImpl implements SalariesService {
  Pour s'assurer de la bonne communication entre Spring et MySQL on a réalisé un test unitaire pour le repository.
  
   ## SalariesRepositoryTest.java
-   
-   ```
+  
+ ```
     
 import com.axeane.SpringBootMysql.model.Salarie;
 
@@ -323,5 +331,5 @@ public class SalariesRepositoryTest {
         assertEquals(salarie.getAdresse(), newSalarie.getAdresse());
 
     }}
-    ```
-    
+   ```
+#    
