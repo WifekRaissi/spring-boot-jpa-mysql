@@ -273,10 +273,12 @@ public class SalariesServiceImpl implements SalariesService {
   ```
     
  ## SalariesController
-    
+ 
+ Auccun changement au niveau du contrôleur.
     
  # Test unitaire
-    
+ Pour s'assurer de la bonne communication entre Spring et MySQL on a réalisé un test unitaire pour le repository.
+ 
   ## SalariesRepositoryTest.java
    
    ```
