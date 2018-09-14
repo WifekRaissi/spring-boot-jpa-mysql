@@ -35,10 +35,9 @@ public class Salarie {
     @NotNull
     @Size(max = 256, message = "address should have maximum 256 characters")
     private String adresse;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     private Departement departement;
 
     public long getId() {
@@ -76,7 +75,7 @@ public class Salarie {
     public String getAdresse() {
         return adresse;
     }
-
+    @JsonIgnore
     public Departement getDepartement() {
         return departement;
     }

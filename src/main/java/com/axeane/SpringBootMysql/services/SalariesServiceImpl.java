@@ -75,4 +75,10 @@ public class SalariesServiceImpl implements SalariesService {
             return salariesRepository.save(salarie);
         });
     }
+    @Override
+    public Salarie findSalarieById(Long id){
+        return salariesRepository.findSalarieById(id);
+
+    }
+
 }

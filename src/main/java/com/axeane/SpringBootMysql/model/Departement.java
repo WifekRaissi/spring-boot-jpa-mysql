@@ -3,6 +3,8 @@ package com.axeane.SpringBootMysql.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "department")
@@ -42,6 +44,18 @@ public class Departement {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "departement")
+    private Set<Salarie> salaries = new HashSet<>();
+
+    public Set<Salarie> getSalaries() {
+        return salaries;
+    }
+
+    public void setSalaries(Set<Salarie> salaries) {
+        this.salaries = salaries;
     }
 
     @Override

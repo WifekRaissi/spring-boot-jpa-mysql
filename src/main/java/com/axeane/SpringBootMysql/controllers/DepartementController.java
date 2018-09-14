@@ -19,7 +19,6 @@ public class DepartementController {
 
     private final DepartementService departementService;
 
-
     public DepartementController(DepartementService departementService) {
         this.departementService = departementService;
     }
@@ -34,9 +33,7 @@ public class DepartementController {
     public ResponseEntity getAllDepartments(Pageable pageable) {
         Page<Departement> departements = departementService.getAllDepartments(pageable);
         return new ResponseEntity<>(departements, HttpStatus.OK);
-
     }
-
 
     @ApiOperation(value = "add a new department")
     @ApiResponses(value = {
@@ -47,9 +44,7 @@ public class DepartementController {
     public ResponseEntity createDepartment(@Valid @RequestBody Departement departement) {
         departementService.createDepartment(departement);
         return new ResponseEntity<>(departement, HttpStatus.CREATED);
-
     }
-
 
     @ApiOperation(value = "update a department")
     @ApiResponses(value = {
@@ -59,20 +54,15 @@ public class DepartementController {
     @PutMapping("/departements")
     public ResponseEntity updateDepartement(@Valid @RequestBody Departement departement) {
         departementService.updateDepartement(departement);
-        return new ResponseEntity<>(departement, HttpStatus.OK);
-    }
-
+        return new ResponseEntity<>(departement, HttpStatus.OK); }
 
     @ApiOperation(value = "delete a department")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully deleted department"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-    }
-    )
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
     @DeleteMapping("/departements/{departementId}")
     public ResponseEntity deleteDepartment(@PathVariable(value = "departementId") Long departementId) {
         departementService.deleteDepartment(departementId);
         return new ResponseEntity(HttpStatus.OK);
-
     }
 }

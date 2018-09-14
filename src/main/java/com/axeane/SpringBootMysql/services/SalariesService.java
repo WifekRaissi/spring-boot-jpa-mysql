@@ -14,4 +14,6 @@ public interface SalariesService {
     void deleteSalaried(Long departementId, Long salarieId);
 
     void updateSalarie(Long departementId, Salarie salarieRequest);
+
+    Salarie findSalarieById(Long id);
 }
