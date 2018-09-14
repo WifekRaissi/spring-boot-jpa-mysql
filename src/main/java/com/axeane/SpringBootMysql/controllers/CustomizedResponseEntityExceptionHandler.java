@@ -34,7 +34,7 @@ public class CustomizedResponseEntityExceptionHandler implements ProblemHandling
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public @ResponseBody
-    ExceptionResponse notFoundRequest(final ExceptionResponse exception, final HttpServletRequest request) {
+    ExceptionResponse notFoundRequest(final ExceptionResponse exception) {
         ExceptionResponse error = new ExceptionResponse();
         error.setMessage(exception.getMessage());
         return error;
@@ -42,7 +42,7 @@ public class CustomizedResponseEntityExceptionHandler implements ProblemHandling
 
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public @ResponseBody
-    ExceptionResponse handleException(final Exception exception, final HttpServletRequest request) {
+    ExceptionResponse handleException(final Exception exception) {
         ExceptionResponse error = new ExceptionResponse();
         error.setMessage(exception.getMessage());
         return error;

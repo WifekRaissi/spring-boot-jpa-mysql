@@ -1,22 +1,22 @@
 package com.axeane.SpringBootMysql.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Required;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Entity
+@Table(name = "salarie")
 public class Salarie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private static final AtomicInteger count = new AtomicInteger(0);
 
@@ -35,6 +35,11 @@ public class Salarie {
     @NotNull
     @Size(max = 256, message = "address should have maximum 256 characters")
     private String adresse;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "post_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Departement departement;
 
     public long getId() {
         return id;
@@ -72,9 +77,16 @@ public class Salarie {
         return adresse;
     }
 
+    public Departement getDepartement() {
+        return departement;
+    }
+
+    public void setDepartement(Departement departement) {
+        this.departement = departement;
+    }
+
     @Required
     public void setAdresse(String adresse) {
-
         this.adresse = adresse;
     }
 
@@ -105,23 +117,39 @@ public class Salarie {
                 ", prenom='" + prenom + '\'' +
                 ", salaire=" + salaire +
                 ", adresse='" + adresse + '\'' +
+                ", departement=" + departement +
                 '}';
+    }
+
+    public Salarie(@NotEmpty @NotNull String nom, @NotEmpty @NotNull String prenom, @NotNull BigDecimal salaire, @NotEmpty @NotNull @Size(max = 256, message = "address should have maximum 256 characters") String adresse, Departement departement) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.salaire = salaire;
+        this.adresse = adresse;
+        this.departement = departement;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Salarie)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Salarie salarie = (Salarie) o;
-        return getId() == salarie.getId() &&
-                Objects.equals(getNom(), salarie.getNom()) &&
-                Objects.equals(getPrenom(), salarie.getPrenom()) &&
-                Objects.equals(getSalaire(), salarie.getSalaire()) &&
-                Objects.equals(getAdresse(), salarie.getAdresse());
+        if (id != salarie.id) return false;
+        if (!nom.equals(salarie.nom)) return false;
+        if (!prenom.equals(salarie.prenom)) return false;
+        if (!salaire.equals(salarie.salaire)) return false;
+        if (!adresse.equals(salarie.adresse)) return false;
+        return departement.equals(salarie.departement);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getNom(), getPrenom(), getSalaire(), getAdresse());
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + nom.hashCode();
+        result = 31 * result + prenom.hashCode();
+        result = 31 * result + salaire.hashCode();
+        result = 31 * result + adresse.hashCode();
+        result = 31 * result + departement.hashCode();
+        return result;
     }
 }
