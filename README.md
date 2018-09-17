@@ -2,7 +2,7 @@
  
  # Spring-Boot-jpa-mysql
  
-Dans le tutorial  précédent on a commencé par implementer une application Spring Boot avec le système Restful et on a intégré des validateurs pour contrôler les donées envoyées en utilisant le controllerAdvice.Puis on réalisé des tests unitaires et d'intégration pour s'assurer du bon fonctionnement de l'application et pour décrire notre API on a intégré Swagger.
+Dans le tutorial  précédent on a commencé par implementer une application Spring Boot avec le système Restful et on a intégré des validateurs pour contrôler les donées envoyées en utilisant le controllerAdvice. Puis on réalisé des tests unitaires et d'intégration pour s'assurer du bon fonctionnement de l'application et pour décrire notre API on a intégré Swagger.
 https://github.com/WifekRaissi/spring-boot-rest
 
 Durant ce tutorial on continuera avec la même application pour intégrer une base de données MySQL. 
@@ -217,7 +217,9 @@ public class Salarie {
 
 
  @Entity: pour indiquer qu'il s'agit d'une entité
+ 
  @Id: indique que le champ correspondant est un clé primaire
+ 
  @GeneratedValue:la clé primaire est autogénérée.
 
     
@@ -334,6 +336,7 @@ public class SalariesRepositoryTest {
     }}
    ```
 #   II. Mapping One to Many
+
 Après la configuration de MySQL on étudie dans cette partie le mapping des différentes realations entre les tables et on commence par la relation One to Many entre la table Salarie et une nouvelle table departement.
 Pour ce fait on ajoute 
 
@@ -846,5 +849,8 @@ public class SalariesController {
 }
   ```
   
-  
+ # III. Mapping One to One
+ 
+ Après le mapping One to Many on s'intèresse dans cette partie au mapping One To One.
+ 
   
