@@ -2,7 +2,7 @@
  
  # Spring-Boot-jpa-mysql
  
-Dans le tutorial  précédent on a commencé à implementer une application Spring Boot avec le système Restful et on a intégré des validateurs pour contrôler les donées envoyées en utilisant le controllerAdvice et puis on réalisé des tests unitaires et d'intégration pour s'assurer du bon fonctionnement de l'application et pour décrire notre API on a intégré Swagger.
+Dans le tutorial  précédent on a commencé par implementer une application Spring Boot avec le système Restful et on a intégré des validateurs pour contrôler les donées envoyées en utilisant le controllerAdvice.Puis on réalisé des tests unitaires et d'intégration pour s'assurer du bon fonctionnement de l'application et pour décrire notre API on a intégré Swagger.
 https://github.com/WifekRaissi/spring-boot-rest
 
 Durant ce tutorial on continuera avec la même application pour intégrer une base de données MySQL. 
@@ -11,10 +11,11 @@ Durant ce tutorial on continuera avec la même application pour intégrer une ba
 
 MySQL
 
-Avant de commencer il faut créer la base de données et la table salarie
+Avant de commencer il faut créer la base de données et la table salarie.
 
 
-```CREATE DATABASE spring;
+```
+CREATE DATABASE spring;
   
    use spring;
 
@@ -62,9 +63,9 @@ spring.jpa.hibernate.ddl-auto = update
  ## Repository
  ## SalariesRepository
  
- Il s'agit d'une interface qui étend JpaRepository, qui présente toutes les fonctionalités de CrudRepository et  PagingAndSortingRepository. https://stackoverflow.com/a/14025100 
+ Il s'agit d'une interface qui étend JpaRepository, héritant toutes les fonctionalités de CrudRepository et  PagingAndSortingRepository. https://stackoverflow.com/a/14025100 
  
-C'est à travers de cette interface que l'application peut communiquer avec la base de données et faire les diffèrentes opérations.
+C'est à travers de cette interface que l'application peut communiquer avec la base de données et assure les diffèrentes opérations.
  
  ```
  import com.axeane.SpringBootMysql.model.Salarie;
@@ -224,7 +225,7 @@ public class Salarie {
   
   ## SalariesServiceImpl
   
-  Maintenant on va changer nos services pour faire des opérations sur la base de données.
+  Maintenant on va changer nos services pour réaliser des opérations sur la base de données.
    
   ```
 import com.axeane.SpringBootMysql.model.Salarie;
@@ -334,10 +335,7 @@ public class SalariesRepositoryTest {
    ```
 #   II. Mapping One to Many
 Après la configuration de MySQL on étudie dans cette partie le mapping des différentes realations entre les tables et on commence par la relation One to Many entre la table Salarie et une nouvelle table departement.
-
-
-
-
+Pour ce fait on ajoute 
 
 ## Departement.java
 
@@ -402,8 +400,12 @@ public class Departement {
     }
 ```
 
+@OneToMany : indique qu'il s'agit d'une relation bidirectionnelle avec Salarie mappée par Departement.
 
+cascade = CascadeType.ALL: indique que Salarie dépend du departement pour toutes les opérations(ajout, modification, supression,..) par exemple si on supprime un département on va supprimer automatiquement tous ses salariés.
 
+ fetch = FetchType.LAZY: indique que la relation doit être chargée à la demande 
+ 
 ## Salarie.java
 
 ```
@@ -754,7 +756,6 @@ public class DepartementController {
   
   
   ```
-  
 import com.axeane.SpringBootMysql.model.Salarie;
 import com.axeane.SpringBootMysql.services.SalariesService;
 import io.swagger.annotations.Api;
