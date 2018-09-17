@@ -1,19 +1,18 @@
 package com.axeane.SpringBootMysql.services;
 
 import com.axeane.SpringBootMysql.model.Salarie;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 
 public interface SalariesService {
 
-    void addsalarie(Long departementId, Salarie salarie);
+    void addsalarie(Salarie salarie);
 
-    Page<Salarie> getAllSalariesByDepartementtId(Long departementId, Pageable pageable);
+    List<Salarie> getListSalaries();
 
-    void deleteSalaried(Long departementId, Long salarieId);
+    Salarie findSalariedById(Long searchedId);
 
-    void updateSalarie(Long departementId, Salarie salarieRequest);
+    void deleteSalaried(Long id);
 
-    Salarie findSalarieById(Long id);
+    void updateSalarie(Salarie salarie);
 }

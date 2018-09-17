@@ -2,6 +2,8 @@ package com.axeane.SpringBootMysql.utils;
 
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.ProblemModule;
 import org.zalando.problem.validation.ConstraintViolationProblemModule;
@@ -54,5 +56,20 @@ public class ExceptionResponse extends AbstractThrowableProblem {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public static class ResourceNotFoundException extends RuntimeException {
+        public ResourceNotFoundException() {
+            super();
+        }
+
+        public ResourceNotFoundException(String message) {
+            super(message);
+        }
+
+        public ResourceNotFoundException(String message, Throwable cause) {
+            super(message, cause);
+        }
     }
 }
