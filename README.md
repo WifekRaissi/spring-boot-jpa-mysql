@@ -34,7 +34,8 @@ Avant de commencer il faut créer la base de données et la table salarie
 L'architecture de l'application est la suivante.
 
    ![alt text](https://github.com/WifekRaissi/spring-boot-rest-data-mysql/blob/master/src/main/resources/images/architecture.PNG)
- 
+   
+
 ## Configuration du MySQL 
 
 On commence par ajouter les dépendances nécessaires pour assurer la connexion entre Spring Boot et MySQL.
