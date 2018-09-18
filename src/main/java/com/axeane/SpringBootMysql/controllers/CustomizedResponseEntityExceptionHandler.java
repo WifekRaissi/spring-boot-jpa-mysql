@@ -30,7 +30,6 @@ public class CustomizedResponseEntityExceptionHandler implements ProblemHandling
         return error;
     }
 
-
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public @ResponseBody
     ExceptionResponse notFoundRequest(final ExceptionResponse exception) {

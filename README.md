@@ -29,7 +29,6 @@ Avant de commencer il faut créer la base de données et la table salarie
 );
 
 
-
 ```
 L'architecture de l'application est la suivante.
 
