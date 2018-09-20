@@ -25,7 +25,7 @@ public class Salarie {
     @NotNull
     private String prenom;
 
-    @NotNull
+
     private BigDecimal salaire;
 
     @NotEmpty
@@ -92,6 +92,12 @@ public class Salarie {
         this.salaire = salaire;
         this.adresse = adresse;
         id = count.incrementAndGet();
+    }
+
+    public Salarie(@NotEmpty @NotNull String nom, @NotEmpty @NotNull String prenom, @NotEmpty @NotNull @Size(max = 256, message = "address should have maximum 256 characters") String adresse) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
     }
 
     @Override

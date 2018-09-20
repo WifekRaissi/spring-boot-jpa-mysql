@@ -11,39 +11,47 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
 @ContextConfiguration(initializers = {SalariesWithTestContainer.Initializer.class})
 @SpringBootTest(classes = SpringBootMysqlApplication.class)
-
+@TestPropertySource("/application-test.properties")
 public class SalariesWithTestContainer {
+
     @Autowired
     private SalariesRepository salariesRepository;
- @ClassRule
-   public static MySQLContainer mySQLContainer =
-            (MySQLContainer) new MySQLContainer("mysql:8.0.12")
-                    .withDatabaseName(" testdocker")
-                    .withUsername("root")
+    @ClassRule
+    public static PostgreSQLContainer postgreSQLContainer =
+            (PostgreSQLContainer) new PostgreSQLContainer("postgres:9.6.10")
+                    .withDatabaseName(" spring")
+                    .withUsername("postgres")
                     .withPassword("root")
-                    .withStartupTimeout(Duration.ofSeconds(10)
-                    );
+                    .withStartupTimeout(Duration.ofSeconds(10));
+
+    public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(@NotNull ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                    "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
+                    "spring.datasource.username=" + postgreSQLContainer.getUsername(),
+                    "spring.datasource.password=" + postgreSQLContainer.getPassword()
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
+    }
 
     @Test
     public void testWithDbs() {
-        Salarie salarie = new Salarie("ilyes", "raissi", new BigDecimal(444444), "Tunis");
-        Salarie salarie1 = new Salarie("rahma", "raissi", new BigDecimal(55555), "Tunis");
+        Salarie salarie = new Salarie("ilyes", "raissi", "Tunis");
+        Salarie salarie1 = new Salarie("rahma", "raissi", "Tunis");
         salariesRepository.save(salarie);
         salariesRepository.save(salarie1);
 
@@ -53,17 +61,5 @@ public class SalariesWithTestContainer {
         assertThat(salarie1)
                 .matches(c -> Objects.equals(c.getNom(), "rahma") && Objects.equals(c.getPrenom(), "raissi") && Objects.equals(c.getAdresse(), "Tunis"));
         assertThat(salariesRepository.findAll()).containsExactly(salarie, salarie1);
-
     }
-   public static class Initializer
-            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(@NotNull ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of(
-                    "spring.datasource.url=" + mySQLContainer.getJdbcUrl(),
-                    "spring.datasource.username=" + mySQLContainer.getUsername(),
-                    "spring.datasource.password=" + mySQLContainer.getPassword()
-
-            ).applyTo(configurableApplicationContext.getEnvironment());
-
-        }}
-        }
+}

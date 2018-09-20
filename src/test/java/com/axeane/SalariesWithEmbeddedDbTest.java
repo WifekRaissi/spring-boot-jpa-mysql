@@ -17,13 +17,10 @@ import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
-
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest(classes = SpringBootMysqlApplication.class)
-
 public class SalariesWithEmbeddedDbTest {
     @Autowired
     private SalariesRepository salariesRepository;
@@ -31,9 +28,9 @@ public class SalariesWithEmbeddedDbTest {
     @Test
     public void testWithDb() {
         Salarie salarie = new Salarie("ilyes", "raissi", new BigDecimal(444444), "Tunis");
-Salarie salarie1 = new Salarie("rahma", "raissi", new BigDecimal(55555), "Tunis");
-salariesRepository.save(salarie);
-salariesRepository.save(salarie1);
+        Salarie salarie1 = new Salarie("rahma", "raissi", new BigDecimal(55555), "Tunis");
+        salariesRepository.save(salarie);
+        salariesRepository.save(salarie1);
 
         assertThat(salarie)
                 .matches(c -> Objects.equals(c.getNom(), "ilyes") && Objects.equals(c.getPrenom(), "raissi") && Objects.equals(c.getAdresse(), "Tunis"));
@@ -41,7 +38,5 @@ salariesRepository.save(salarie1);
         assertThat(salarie1)
                 .matches(c -> Objects.equals(c.getNom(), "rahma") && Objects.equals(c.getPrenom(), "raissi") && Objects.equals(c.getAdresse(), "Tunis"));
         assertThat(salariesRepository.findAll()).containsExactly(salarie, salarie1);
-
     }
-
-    }
+}
