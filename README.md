@@ -284,51 +284,54 @@ public class SalariesServiceImpl implements SalariesService {
  Auccun changement au niveau du contrôleur.
     
  # Test unitaire
- Pour s'assurer de la bonne communication entre Spring et MySQL on a réalisé un test unitaire pour le repository.
+ Pour s'assurer de la bonne communication entre Spring et MySQL on a réalisé des tests d'intégration.
  
-  ## SalariesRepositoryTest.java
+ ## Test avec une base de données en mémoire
+ 
+  ## SalariesWithEmbeddedDbTest.java
   
- ```
-    
+ ``` 
+import com.axeane.SpringBootMysql.SpringBootMysqlApplication;
 import com.axeane.SpringBootMysql.model.Salarie;
-
-import org.junit.Before;
+import com.axeane.SpringBootMysql.repositories.SalariesRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
-import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-public class SalariesRepositoryTest {
+@RunWith(SpringRunner.class)
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest(classes = SpringBootMysqlApplication.class)
+public class SalariesWithEmbeddedDbTest {
     @Autowired
     private SalariesRepository salariesRepository;
 
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
     @Test
-    public void testPersistence() {
-
-        Salarie salarie = new Salarie("amira", "raissi", new BigDecimal(444444), "Tunis");
+    public void testWithDb() {
+        Salarie salarie = new Salarie("ilyes", "raissi", new BigDecimal(444444), "Tunis");
+        Salarie salarie1 = new Salarie("rahma", "raissi", new BigDecimal(55555), "Tunis");
         salariesRepository.save(salarie);
-        assertNotNull(salarie.getId());
+        salariesRepository.save(salarie1);
 
-        Salarie newSalarie = salariesRepository.findSalarieById(salarie.getId());
-        assertEquals(salarie.getId(), newSalarie.getId());
-        assertEquals(salarie.getNom(), newSalarie.getNom());
-        assertEquals(salarie.getPrenom(), newSalarie.getPrenom());
-        assertEquals(salarie.getSalaire().compareTo(newSalarie.getSalaire()), 0);
-        assertEquals(salarie.getAdresse(), newSalarie.getAdresse());
+        assertThat(salarie)
+                .matches(c -> Objects.equals(c.getNom(), "ilyes") && Objects.equals(c.getPrenom(), "raissi") && Objects.equals(c.getAdresse(), "Tunis"));
 
-    }}
-    ```
-    
+        assertThat(salarie1)
+                .matches(c -> Objects.equals(c.getNom(), "rahma") && Objects.equals(c.getPrenom(), "raissi") && Objects.equals(c.getAdresse(), "Tunis"));
+        assertThat(salariesRepository.findAll()).containsExactly(salarie, salarie1);
+    }
+}
+
+ ```
+L'annotation @DataJpaTest initialise une base de données en mémoire H2 et charge le repository (SalariesRepository) pour le tester.
+Mais réellement notre application n'utilise pas H2 donc il faut dans un environnement similaire à celui du production.
+Pou
