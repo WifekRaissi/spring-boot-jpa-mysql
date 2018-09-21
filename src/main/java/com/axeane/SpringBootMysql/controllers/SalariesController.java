@@ -80,8 +80,7 @@ public class SalariesController {
         if (salariesService.findSalariedById(salarie.getId()) != null) {
             logger.info("Salaried:" + salarie);
             salariesService.updateSalarie(salarie);
-            return new ResponseEntity<>(salarie, HttpStatus.OK);
-        }
+            return new ResponseEntity<>(salarie, HttpStatus.OK); }
         throw new ExceptionResponse();
     }
 
