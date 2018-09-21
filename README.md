@@ -338,3 +338,61 @@ Mais réellement notre application n'utilise pas H2 donc il faut tester dans un 
 Pour ceci on a utilisé le testContainer pour tester l'application avec une base de données réelle qui est dans notre cas MySQL ou PostgreSQL.
 TestContainer est une librairie Java supportant Junit tests et utilisant les conteneurs Docker.
 On lance un conteneur de la base de données pendant seulement la durée du test, ce qui permet de, à la fois, tester dans un environnement réel  et éviter le maintien de la base de données.
+
+##   SalariesWithTestContainer
+
+```
+
+import java.time.Duration;
+import java.util.Objects;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@RunWith(SpringRunner.class)
+@ContextConfiguration(initializers = {SalariesWithTestContainer.Initializer.class})
+@SpringBootTest(classes = SpringBootMysqlApplication.class)
+@TestPropertySource("/application-test.properties")
+public class SalariesWithTestContainer {
+
+    @Autowired
+    private SalariesRepository salariesRepository;
+    @ClassRule
+    public static PostgreSQLContainer postgreSQLContainer =
+            (PostgreSQLContainer) new PostgreSQLContainer("postgres:9.6.10")
+                    .withDatabaseName(" spring")
+                    .withUsername("postgres")
+                    .withPassword("root")
+                    .withStartupTimeout(Duration.ofSeconds(10));
+
+    public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                    "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
+                    "spring.datasource.username=" + postgreSQLContainer.getUsername(),
+                    "spring.datasource.password=" + postgreSQLContainer.getPassword()
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
+    }
+
+    @Test
+    public void testWithDbs() {
+        Salarie salarie = new Salarie("ilyes", "raissi", "Tunis");
+        Salarie salarie1 = new Salarie("rahma", "raissi", "Tunis");
+        salariesRepository.save(salarie);
+        salariesRepository.save(salarie1);
+
+        assertThat(salarie)
+                .matches(c -> Objects.equals(c.getNom(), "ilyes") && Objects.equals(c.getPrenom(), "raissi") && Objects.equals(c.getAdresse(), "Tunis"));
+
+        assertThat(salarie1)
+                .matches(c -> Objects.equals(c.getNom(), "rahma") && Objects.equals(c.getPrenom(), "raissi") && Objects.equals(c.getAdresse(), "Tunis"));
+        assertThat(salariesRepository.findAll()).containsExactly(salarie, salarie1);
+    }
+}
+
+```
+
+##  Conclusion
+On a continué durant ce tutorial avec Spring Boot l'API Rest en intégrant Spring Data ce qui va être détaillé encore avec l'étude du mapping des différentes relations entre les tables dans les prochains tutoriaux et on commence par la relation One to Many.
+
+https://github.com/WifekRaissi/spring-boot-jpa-mysql-one-to-man
