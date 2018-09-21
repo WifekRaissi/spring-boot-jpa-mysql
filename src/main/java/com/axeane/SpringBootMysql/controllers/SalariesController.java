@@ -32,6 +32,7 @@ public class SalariesController {
                 new ConstraintViolationProblemModule()
         );
     }
+
     private Logger logger = LoggerFactory.getLogger(SalariesController.class);
     private final SalariesService salariesService;
 

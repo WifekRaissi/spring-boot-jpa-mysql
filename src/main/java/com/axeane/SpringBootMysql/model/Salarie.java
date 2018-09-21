@@ -9,7 +9,8 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
-@Table(name ="salarie")
+
+@Table(name = "salarie")
 @Entity
 public class Salarie {
     @Id
@@ -24,7 +25,6 @@ public class Salarie {
     @NotEmpty
     @NotNull
     private String prenom;
-
 
     private BigDecimal salaire;
 

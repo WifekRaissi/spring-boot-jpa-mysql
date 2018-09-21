@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 public class SpringBootMysqlApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringBootMysqlApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SpringBootMysqlApplication.class, args);
+    }
 }

@@ -3,7 +3,6 @@ package com.axeane;
 import com.axeane.SpringBootMysql.SpringBootMysqlApplication;
 import com.axeane.SpringBootMysql.model.Salarie;
 import com.axeane.SpringBootMysql.repositories.SalariesRepository;
-import org.jetbrains.annotations.NotNull;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,7 @@ public class SalariesWithTestContainer {
                     .withStartupTimeout(Duration.ofSeconds(10));
 
     public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(@NotNull ConfigurableApplicationContext configurableApplicationContext) {
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
                     "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
                     "spring.datasource.username=" + postgreSQLContainer.getUsername(),
