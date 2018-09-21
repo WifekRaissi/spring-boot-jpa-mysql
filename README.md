@@ -336,5 +336,5 @@ public class SalariesWithEmbeddedDbTest {
 L'annotation @DataJpaTest initialise une base de données en mémoire H2 et charge le repository (SalariesRepository) pour le tester.
 Mais réellement notre application n'utilise pas H2 donc il faut tester dans un environnement similaire à celui de production.
 Pour ceci on a utilisé le testContainer pour tester l'application avec une base de données réelle qui est dans notre cas MySQL ou PostgreSQL.
-TestContainer est une librairie Java supportant Junit tests et utilisant les contenaires Docker.
-On lance un contenaire de la base de données pendant seulement la durée du test, ce qui permet de, à la fois, tester dans un environnement réel  et éviter le maintien de la base de données.
+TestContainer est une librairie Java supportant Junit tests et utilisant les conteneurs Docker.
+On lance un conteneur de la base de données pendant seulement la durée du test, ce qui permet de, à la fois, tester dans un environnement réel  et éviter le maintien de la base de données.
