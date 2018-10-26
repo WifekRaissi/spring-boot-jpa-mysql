@@ -395,4 +395,4 @@ public class SalariesWithTestContainer {
 ##  Conclusion
 On a continué durant ce tutorial avec Spring Boot l'API Rest en intégrant Spring Data ce qui va être détaillé encore avec l'étude du mapping des différentes relations entre les tables dans les prochains tutoriaux et on commence par la relation One to Many.
 
-https://github.com/WifekRaissi/spring-boot-jpa-mysql-one-to-man
+https://github.com/WifekRaissi/spring-boot-jpa-mysql-one-to-many
